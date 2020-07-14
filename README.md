@@ -1,6 +1,6 @@
 # @veaba/vitepress
 
-This Repo clone to [vuejs/vitepress](https://github.com/vuejs/vitepress).
+This Repo clone from [vuejs/vitepress](https://github.com/vuejs/vitepress).
 
 The Repo use to [veaba/vue-docs](https://github.com/veaba/vue-docs).
 
