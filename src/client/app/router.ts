@@ -46,10 +46,12 @@ export function createRouter(
   }
 
   async function loadPage(href: string, scrollPosition = 0) {
+    console.log('loadPage==>', href)
     const targetLoc = new URL(href, fakeHost)
     const pendingPath = (route.path = targetLoc.pathname)
     try {
       let comp = loadComponent(route)
+      console.log('loadComponent======>', comp)
       // only await if it returns a Promise - this allows sync resolution
       // on initial render in SSR.
       if ('then' in comp && typeof comp.then === 'function') {

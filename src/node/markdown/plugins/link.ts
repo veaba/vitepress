@@ -6,8 +6,9 @@ import MarkdownIt from 'markdown-it'
 import { MarkdownParsedData } from '../markdown'
 import { URL } from 'url'
 
-const indexRE = /(^|.*\/)index.md(#?.*)$/i
+const indexRE = /(^|.*\/)(index|readme).md(#?.*)$/i
 
+console.log('========>')
 export const linkPlugin = (
   md: MarkdownIt,
   externalAttrs: Record<string, string>
@@ -27,18 +28,23 @@ export const linkPlugin = (
         normalizeHref(hrefAttr)
       }
     }
+    console.log('open======>', hrefIndex)
+    console.log('token======>', token)
     return self.renderToken(tokens, idx, options)
   }
 
   function normalizeHref(hrefAttr: [string, string]) {
     let url = hrefAttr[1]
 
+    console.log('url===>', url)
     const indexMatch = url.match(indexRE)
+    console.log('indexMatch===>', indexMatch)
     if (indexMatch) {
       const [, path, hash] = indexMatch
       url = path + hash
     } else {
       let cleanUrl = url.replace(/\#.*$/, '').replace(/\?.*$/, '')
+
       // .md -> .html
       if (cleanUrl.endsWith('.md')) {
         cleanUrl = cleanUrl.replace(/\.md$/, '.html')
@@ -49,6 +55,8 @@ export const linkPlugin = (
       }
       const parsed = new URL(url, 'http://a.com')
       url = cleanUrl + parsed.search + parsed.hash
+
+      console.log('url====>', url)
     }
 
     // ensure leading . for relative paths
