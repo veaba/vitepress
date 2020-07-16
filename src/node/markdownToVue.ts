@@ -25,6 +25,7 @@ export function createMarkdownToVueRenderFn(
     lastUpdated: number,
     injectData = true
   ) => {
+    console.info("createMarkdownToVueRenderFn==>",root,file)
     file = path.relative(root, file)
     const cached = cache.get(src)
     if (cached) {

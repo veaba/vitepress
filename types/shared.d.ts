@@ -4,7 +4,8 @@ export interface SiteData<ThemeConfig = any> {
   title: string
   description: string
   base: string
-  head: HeadConfig[]
+  head: any
+  // head: HeadConfig[]
   themeConfig: ThemeConfig
 }
 

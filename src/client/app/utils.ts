@@ -5,9 +5,13 @@ export const inBrowser = typeof window !== 'undefined'
  */
 export function pathToFile(path: string): string {
   let pagePath = path.replace(/\.html$/, '')
+
+  console.info('pathToFile pagePath====>', pagePath)
   if (pagePath.endsWith('/')) {
-    pagePath += 'index'
+    pagePath += 'readme' // TODO 这里把原来的index 转为 readme
   }
+
+  console.info('pagePath====>', pagePath)
 
   if (import.meta.env.DEV) {
     // awlays force re-fetch content in dev
@@ -19,6 +23,9 @@ export function pathToFile(path: string): string {
     if (inBrowser) {
       const base = import.meta.env.BASE_URL
       pagePath = pagePath.slice(base.length).replace(/\//g, '_') + '.md'
+
+      console.info('inBrowser-pagePath-===>', pagePath)
+      console.info('base-===>', base)
       // client production build needs to account for page hash, which is
       // injected directly in the page's html
       const pageHash = __VP_HASH_MAP__[pagePath]

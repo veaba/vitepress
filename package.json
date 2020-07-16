@@ -53,8 +53,9 @@
   "author": "Evan You",
   "license": "MIT",
   "dependencies": {
-    "@vue/compiler-sfc": "^3.0.0-beta.15",
-    "@vue/server-renderer": "^3.0.0-beta.15",
+    "@types/node": "^14.0.23",
+    "@vue/compiler-sfc": "^3.0.0-beta.22",
+    "@vue/server-renderer": "^3.0.0-beta.22",
     "debug": "^4.1.1",
     "diacritics": "^1.3.0",
     "escape-html": "^1.0.3",
@@ -68,23 +69,27 @@
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-table-of-contents": "^0.4.4",
     "minimist": "^1.2.5",
+    "pify": "^5.0.0",
     "prismjs": "^1.20.0",
     "slash": "^3.0.0",
-    "vite": "^1.0.0-beta.1",
-    "vue": "^3.0.0-beta.15"
+    "vite": "^1.0.0-beta.11",
+    "vue": "^3.0.0-beta.22"
   },
   "devDependencies": {
+    "@babel/types": "^7.10.5",
     "@types/fs-extra": "^8.1.0",
     "@types/lru-cache": "^5.1.0",
     "@types/markdown-it": "^10.0.1",
-    "@types/node": "^13.13.4",
     "@types/postcss-load-config": "^2.0.1",
+    "@vue/reactivity": "^3.0.0-beta.22",
     "chokidar": "^3.4.0",
     "conventional-changelog-cli": "^2.0.31",
     "lint-staged": "^10.2.1",
     "npm-run-all": "^4.1.5",
+    "postcss-selector-parser": "^6.0.2",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
+    "rollup": "^2.21.0",
     "typescript": "^3.8.3",
     "yorkie": "^2.0.0"
   }

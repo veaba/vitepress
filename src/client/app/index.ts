@@ -23,6 +23,8 @@ export function createApp() {
   if (import.meta.hot) {
     // hot reload pageData
     import.meta.hot!.on('vitepress:pageData', (data) => {
+
+      console.info('vitepress:pageData===>', data)
       if (
         data.path.replace(/(\bindex)?\.md$/, '') ===
         location.pathname.replace(/(\bindex)?\.html$/, '')
@@ -36,7 +38,10 @@ export function createApp() {
   let initialPath: string
 
   const router = createRouter((route) => {
+    console.info('createRouter===>', route.path, route)
     let pagePath = pathToFile(route.path)
+
+    console.info('createRouter pagePath===>', pagePath)
 
     if (isInitialPageLoad) {
       initialPath = pagePath

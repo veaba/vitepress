@@ -14,14 +14,14 @@ const debug = require('debug')('vitepress:serve')
 const debugHmr = require('debug')('vitepress:hmr')
 
 function createVitePressPlugin({
-  configPath,
-  site: initialSiteData
-}: SiteConfig): ServerPlugin {
+                                 configPath,
+                                 site: initialSiteData
+                               }: SiteConfig): ServerPlugin {
   return ({ app, root, watcher, resolver }) => {
     const markdownToVue = createMarkdownToVueRenderFn(root)
 
     // hot reload .md files as .vue files
-    watcher.on('change', async (file) => {
+    watcher.on('change', async (file: string) => {
       if (file.endsWith('.md')) {
         debugHmr(`reloading ${file}`)
         const content = await cachedRead(null, file)
@@ -59,7 +59,7 @@ function createVitePressPlugin({
     let siteData = initialSiteData
     let stringifiedData = JSON.stringify(JSON.stringify(initialSiteData))
     watcher.add(configPath)
-    watcher.on('change', async (file) => {
+    watcher.on('change', async (file: string) => {
       if (file === configPath) {
         const newData = await resolveSiteData(root)
         stringifiedData = JSON.stringify(JSON.stringify(newData))
@@ -129,7 +129,6 @@ function createVitePressPlugin({
 
 export async function createServer(options: ServerConfig = {}) {
   const config = await resolveConfig(options.root)
-
   return createViteServer({
     ...options,
     configureServer: createVitePressPlugin(config),
