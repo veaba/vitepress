@@ -1,12 +1,21 @@
 // types shared between server and client.
 
+export interface LocaleConfig {
+  lang: string
+  title?: string
+  description?: string
+  head?: HeadConfig[]
+}
+
 export interface SiteData<ThemeConfig = any> {
+  lang: string
   title: string
   description: string
   base: string
   head: any
   // head: HeadConfig[]
   themeConfig: ThemeConfig
+  locales: Record<string, LocaleConfig>
 }
 
 export type HeadConfig =

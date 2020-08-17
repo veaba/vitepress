@@ -26,7 +26,6 @@ export function createRouter(
   loadComponent: (route: Route) => Component | Promise<Component>,
   fallbackComponent?: Component
 ): Router {
-
   const route = reactive(getDefaultRoute())
   const inBrowser = typeof window !== 'undefined'
 
@@ -66,7 +65,7 @@ export function createRouter(
           nextTick(() => {
             if (targetLoc.hash && !scrollPosition) {
               const target = document.querySelector(
-                targetLoc.hash
+                decodeURIComponent(targetLoc.hash)
               ) as HTMLElement
               if (target) {
                 scrollTo(target, targetLoc.hash)
@@ -152,7 +151,7 @@ function scrollTo(el: HTMLElement, hash: string, smooth = false) {
   const pageOffset = document.getElementById('app')!.offsetTop
   const target = el.classList.contains('.header-anchor')
     ? el
-    : document.querySelector(hash)
+    : document.querySelector(decodeURIComponent(hash))
   if (target) {
     const targetTop = (target as HTMLElement).offsetTop - pageOffset - 15
     // only smooth scroll if distance is smaller than screen height.
