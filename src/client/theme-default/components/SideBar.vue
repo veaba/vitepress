@@ -1,61 +1,59 @@
 <template>
-  <ul class="sidebar">
-    <SideBarItem v-for="item of items" :item="item" />
-  </ul>
+		<aside class="sidebar">
+				<a href="">items===>{{items}}</a>
+				<NavLinks></NavLinks>
+				<slot name="top"></slot>
+				<SidebarLinks :depth="0" :items="items"></SidebarLinks>
+				<slot name="bottom"></slot>
+				<!--    <SideBarItem v-for="item of items" :item="item" />-->
+		</aside>
 </template>
 
 <script src="./SideBar"></script>
-
-<style>
-.sidebar,
-.sidebar-items {
-  list-style-type: none;
-  line-height: 2;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar-items .sidebar-items {
-  padding-left: 1rem;
-}
-
-.sidebar-items .sidebar-items .sidebar-link {
-  border-left: 0;
-}
-
-.sidebar-items .sidebar-items .sidebar-link.active {
-  font-weight: 500;
-}
-
-.sidebar-items .sidebar-link {
-  padding: .35rem 1rem .35rem 2rem;
-  line-height: 1.4;
-  font-size: 0.9em;
-  font-weight: 400;
-}
-
-.sidebar-link {
-  display: block;
-  margin: 0;
-  border-left: .25rem solid transparent;
-  padding: .35rem 1.5rem .35rem 1.25rem;
-  line-height: 1.7;
-  font-size: 1em;
-  font-weight: 600;
-  color: var(--text-color);
-}
-
-a.sidebar-link {
-  transition: color .15s ease;
-}
-
-a.sidebar-link:hover {
-  color: var(--accent-color);
-}
-
-a.sidebar-link.active {
-  border-left-color: var(--accent-color);
-  font-weight: 600;
-  color: var(--accent-color);
-}
+<style lang="stylus" scoped>
+		@require "../styles/config.styl"
+		.sidebar
+				ul
+						padding 0
+						margin 0
+						list-style-type none
+				
+				a
+						display inline-block
+				
+				.nav-links
+						display none
+						border-bottom 1px solid $borderColor
+						padding 0.5rem 0 0.75rem 0
+						
+						a
+								font-weight 600
+						
+						.nav-item, .repo-link
+								display block
+								line-height 1.25rem
+								font-size 1.1em
+								padding 0.5rem 0 0.5rem 1.5rem
+				
+				& > .sidebar-links
+						padding 1.5rem 0
+						
+						& > li > a.sidebar-link
+								font-size 1.1em
+								line-height 1.7
+								font-weight bold
+						
+						& > li:not(:first-child)
+								margin-top .75rem
+		
+		@media (max-width: $MQMobile)
+				.sidebar
+						.nav-links
+								display block
+								
+								.dropdown-wrapper .nav-dropdown .dropdown-item a.router-link-active::after
+										top calc(1rem - 2px)
+						
+						& > .sidebar-links
+								padding 1rem 0
 </style>

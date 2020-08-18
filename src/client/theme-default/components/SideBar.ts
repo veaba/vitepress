@@ -4,10 +4,12 @@ import { Header } from '../../../../types/shared'
 import { isActive, getPathDirName } from '../utils'
 import { DefaultTheme } from '../config'
 import { useActiveSidebarLinks } from '../composables/activeSidebarLink'
+import NavLinks from './NavLinks.vue'
+import SidebarLinks from './SidebarLinks.vue'
 
 const SideBarItem: FunctionalComponent<{
   item: ResolvedSidebarItem
-}> = (props) => {
+}> = (props: any) => {
   const {
     item: { link, text, children }
   } = props
@@ -26,9 +28,17 @@ const SideBarItem: FunctionalComponent<{
 
 export default {
   components: {
-    SideBarItem
+    SideBarItem,
+    NavLinks,
+    SidebarLinks
   },
-
+  props: ['items'],
+  emits: {
+    // todo https://v3.datav.ai/api/options-data.html#emits
+    toggleSidebar: null,
+    onToggleSidebar: null,
+    'toggle-sidebar': null
+  },
   setup() {
     const pageData = usePageData()
     const siteData = useSiteDataByRoute()

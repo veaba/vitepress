@@ -4,6 +4,8 @@ This Repo clone from [vuejs/vitepress](https://github.com/vuejs/vitepress).
 
 The Repo use to [veaba/vue-docs](https://github.com/veaba/vue-docs).
 
+## docs
+  - 更多文档以及使用细节，见 docs下
 
 ## feature
 Keep feature as vuepress
@@ -21,7 +23,7 @@ Keep feature as vuepress
 Install fail! Error: post install error, please remove node_modules before retry!
 Run "C:\windows\system32\cmd.exe /d /s /c node install.js" error, exit code 1
 ```
--
+- 如何外面只需要import 一个声明的stylus 就可以？后续不需要再import 变量文件？
 
 ## How dev
 

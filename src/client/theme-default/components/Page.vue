@@ -7,7 +7,7 @@
 <style>
 .content {
   max-width: 46rem;
-  margin: 0px auto;
+  margin: 0 auto;
   padding: 1rem 2rem;
 }
 

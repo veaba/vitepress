@@ -4,3 +4,4 @@ dist
 TODOs.md
 *.log
 test/temp
+.idea

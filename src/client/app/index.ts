@@ -1,5 +1,5 @@
 import { createApp as createClientApp, createSSRApp, ref, readonly } from 'vue'
-import { createRouter, RouterSymbol } from './router'
+import { createRouter, RouterSymbol, useRoute } from './router'
 import { useUpdateHead } from './composables/head'
 import { pageDataSymbol } from './composables/pageData'
 import { Content } from './components/Content'
@@ -8,6 +8,7 @@ import Theme from '/@theme/index'
 import { inBrowser, pathToFile } from './utils'
 import { useSiteDataByRoute } from './composables/siteDataByRoute'
 import { siteDataRef } from './composables/siteData'
+import OutboundLink from '../theme-default/layouts/OutboundLink.vue'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
@@ -19,7 +20,6 @@ export function createApp() {
   if (import.meta.hot) {
     // hot reload pageData
     import.meta.hot!.on('vitepress:pageData', (data) => {
-      console.info('vitepress:pageData===>', data)
       if (
         data.path.replace(/(\bindex)?\.md$/, '') ===
         location.pathname.replace(/(\bindex)?\.html$/, '')
@@ -75,6 +75,7 @@ export function createApp() {
   app.provide(pageDataSymbol, pageDataRef)
 
   app.component('Content', Content)
+  app.component('OutboundLink', OutboundLink)
   app.component(
     'Debug',
     process.env.NODE_ENV === 'production' ? () => null : Debug
@@ -107,6 +108,78 @@ export function createApp() {
       get() {
         return siteDataByRouteRef.value.themeConfig
       }
+    },
+    $title: {
+      get(): any {
+        const page = this.$page || {}
+        const { metaTitle } = this.$page.frontmatter
+        if (typeof metaTitle === 'string') {
+          return metaTitle
+        }
+
+        const siteTitle = this.$siteTitle
+        const selfTitle = page.frontmatter.home
+          ? null
+          : page.frontmatter.title || page.title // explicit title // inferred title
+        return siteTitle
+          ? selfTitle
+            ? selfTitle + ' | ' + siteTitle
+            : siteTitle
+          : selfTitle || 'VitePress'
+      }
+    },
+    $description: {
+      get(): any {
+        // #565 hoist description from meta
+        const { meta = [] } = this.$page.frontmatter || {}
+        const description = getMetaDescription(meta)
+        if (description) {
+          return description
+        }
+        return (
+          (this.$page.frontmatter || {}).description ||
+          this.$localeConfig.description ||
+          this.$site.description ||
+          ''
+        )
+      }
+    },
+    $themeLocaleConfig: {
+      get(): any {
+        return (this.$site.themeConfig.locales || {})[this.$localePath] || {}
+      }
+    },
+    // TODO
+    $router: {
+      get() {
+        return router
+      }
+    },
+    $route: {
+      get(): any {
+        return useRoute()
+      }
+    },
+    $localeConfig: {
+      get() {
+        const { locales = {} } = this.$site
+        let targetLang
+        let defaultLang
+        for (const path in locales) {
+          if (path === '/') {
+            defaultLang = locales[path]
+          } else if (this.$page.path.indexOf(path) === 0) {
+            targetLang = locales[path]
+          }
+        }
+        return targetLang || defaultLang || {}
+      }
+    },
+    // TODO
+    $localePath: {
+      get() {
+        return this.$localeConfig.path || '/'
+      }
     }
   })
 
@@ -116,6 +189,13 @@ export function createApp() {
       router,
       siteData: siteDataByRouteRef
     })
+  }
+  //* global
+  //  global helper for adding base path to absolute urls
+  app.config.globalProperties.$withBase = function (path: string) {
+    const base = this.$site.base
+    if (path.charAt(0) === '/') return base + path.slice(1)
+    else return path
   }
 
   return { app, router }
@@ -127,4 +207,15 @@ if (inBrowser) {
   router.go().then(() => {
     app.mount('#app')
   })
+}
+
+function getMetaDescription(meta: any[]): string {
+  console.info('dsadsadsa===>', meta)
+  if (meta) {
+    const descriptionMeta = meta.filter(
+      (item) => item.name === 'description'
+    )[0]
+    if (descriptionMeta) return descriptionMeta.content
+  }
+  return ''
 }
