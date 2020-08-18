@@ -5,11 +5,23 @@
 				<slot name="top"></slot>
 				<SidebarLinks :depth="0" :items="items"></SidebarLinks>
 				<slot name="bottom"></slot>
-				<!--    <SideBarItem v-for="item of items" :item="item" />-->
 		</aside>
 </template>
 
-<script src="./SideBar"></script>
+
+<script>
+  import SidebarLinks from './SidebarLinks.vue'
+  import NavLinks from './NavLinks.vue'
+  
+  export default {
+    name: 'Sidebar',
+    components: {
+      SidebarLinks, NavLinks
+    },
+    props: ['items']
+  }
+</script>
+
 <style lang="stylus" scoped>
 		@require "../styles/config.styl"
 		.sidebar

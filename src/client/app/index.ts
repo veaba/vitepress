@@ -91,6 +91,11 @@ export function createApp() {
   }
 
   Object.defineProperties(app.config.globalProperties, {
+    // $xx:{
+    //   get(){
+    //     return router
+    //   }
+    // },
     $localeConfig: {
       get() {
         const { locales = {} } = this.$site
@@ -108,17 +113,21 @@ export function createApp() {
     },
     $site: {
       get() {
-        return siteDataRef.value
+        return siteDataRef.value || {}
       }
     },
     $siteByRoute: {
       get() {
-        return siteDataByRouteRef.value
+        return siteDataByRouteRef.value || {}
       }
     },
     $page: {
       get() {
-        return pageDataRef.value
+        return {
+          ...(pageDataRef.value || {}),
+          frontmatter:
+            (pageDataRef.value && pageDataRef.value.frontmatter) || {}
+        }
       }
     },
     $theme: {
@@ -130,15 +139,15 @@ export function createApp() {
     $title: {
       get(): any {
         const page = this.$page || {}
-        const { metaTitle } = this.$page.frontmatter
+        const { metaTitle } = (this.$page || {}).frontmatter || {}
         if (typeof metaTitle === 'string') {
           return metaTitle
         }
 
         const siteTitle = this.$siteTitle
-        const selfTitle = page.frontmatter.home
+        const selfTitle = (page.frontmatter || {}).home
           ? null
-          : page.frontmatter.title || page.title // explicit title // inferred title
+          : (page.frontmatter || {}).title || page.title // explicit title // inferred title
         return siteTitle
           ? selfTitle
             ? selfTitle + ' | ' + siteTitle

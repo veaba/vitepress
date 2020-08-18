@@ -68,7 +68,9 @@ export function resolveSidebarItems(
       : themeConfig
 
   const pageSidebarConfig =
-    page.frontmatter.sidebar || localeConfig.sidebar || themeConfig.sidebar
+    (page.frontmatter || {}).sidebar ||
+    localeConfig.sidebar ||
+    themeConfig.sidebar
   if (pageSidebarConfig === 'auto') {
     return resolveHeaders(page)
   }

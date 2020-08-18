@@ -22,6 +22,13 @@
 						</div>
 				</div>
 				
+				<!--todo
+				<p>
+						{{$xx}}
+				</p>
+				{ "route": { "path": "/", "contentComponent": { "__hmrId": "/readme.md", "__file": "docs\\readme.md" } } }
+				-->
+				
 				<Content class="theme-default-content custom"/>
 				
 				<div class="footer" v-if="data.footer">{{ data.footer }}</div>

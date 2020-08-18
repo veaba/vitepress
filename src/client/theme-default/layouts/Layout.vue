@@ -62,8 +62,8 @@
     
     computed: {
       shouldShowNavbar() {
-        const { themeConfig } = this.$site
-        const { frontmatter } = this.$page
+        const { themeConfig = {} } = this.$site || {}
+        const { frontmatter = {} } = this.$page || {}
         if (
           frontmatter.navbar === false
           || themeConfig.navbar === false) {
@@ -81,9 +81,9 @@
       },
       
       shouldShowSidebar() {
-        const { frontmatter } = this.$page
+        const { frontmatter={} } = this.$page||{}
         return (
-          !frontmatter.home
+          !(frontmatter||{}).home
           && frontmatter.sidebar !== false
           && this.sidebarItems.length
         )
@@ -99,7 +99,8 @@
       },
       
       pageClasses() {
-        const userPageClass = this.$page.frontmatter.pageClass
+        const { frontmatter = {} } = this.$page || {}
+        const userPageClass = (frontmatter || {}).pageClass
         return [
           {
             'no-navbar': !this.shouldShowNavbar,
