@@ -1,51 +1,40 @@
 <template>
 		<div
 						class="dropdown-wrapper"
-						:class="{ open }"
-		>
+						:class="{ open }">
 				<button
 								class="dropdown-title"
 								type="button"
 								:aria-label="dropdownAriaLabel"
-								@click="setOpen(!open)"
-				>
+								@click="setOpen(!open)">
 						<span class="title">{{ item.text }}</span>
 						<span
 										class="arrow"
-										:class="open ? 'down' : 'right'"
-						/>
+										:class="open ? 'down' : 'right'"/>
 				</button>
 				
 				<DropdownTransition>
 						<ul
 										v-show="open"
-										class="nav-dropdown"
-						>
+										class="nav-dropdown">
 								<li
 												v-for="(subItem, index) in item.items"
 												:key="subItem.link || index"
-												class="dropdown-item"
-								>
+												class="dropdown-item">
 										<h4 v-if="subItem.type === 'links'">
 												{{ subItem.text }}
 										</h4>
 										
 										<ul
 														v-if="subItem.type === 'links'"
-														class="dropdown-subitem-wrapper"
-										>
+														class="dropdown-subitem-wrapper">
 												<li
 																v-for="childSubItem in subItem.items"
 																:key="childSubItem.link"
-																class="dropdown-subitem"
-												>
+																class="dropdown-subitem">
 														<NavLink
 																		:item="childSubItem"
-																		@focusout="
-                  isLastItemOfArray(childSubItem, subItem.items) &&
-                    isLastItemOfArray(subItem, item.items) &&
-                    setOpen(false)
-                "
+																		@focusout="isLastItemOfArray(childSubItem, subItem.items) &&isLastItemOfArray(subItem, item.items) &&setOpen(false)"
 														/>
 												</li>
 										</ul>

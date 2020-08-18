@@ -20,12 +20,7 @@
 						>{{ $siteTitle }}</span>
 				</RouterLink>
 				
-				<div
-								class="links"
-								:style="linksWrapMaxWidth ? {
-        'max-width': linksWrapMaxWidth + 'px'
-      } : {}"
-				>
+				<div class="links" :style="linksWrapMaxWidth ? {'max-width': linksWrapMaxWidth + 'px'} : {}">
 						<!-- todo
 						<AlgoliaSearchBox
 										v-if="isAlgoliaSearch"
@@ -41,14 +36,15 @@
 <script>
   // import AlgoliaSearchBox from '@AlgoliaSearchBox'
   // import SearchBox from '@SearchBox'
-  // import SidebarButton from '@theme/components/SidebarButton.vue'
+  
+  import SidebarButton from './SidebarButton.vue'
   import NavLinks from './NavLinks.vue'
   
   export default {
     name: 'Navbar',
     
     components: {
-      // SidebarButton,
+      SidebarButton,
       NavLinks
       // SearchBox,
       // AlgoliaSearchBox

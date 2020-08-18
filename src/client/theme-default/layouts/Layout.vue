@@ -3,20 +3,16 @@
 						class="theme-container"
 						:class="pageClasses"
 						@touchstart="onTouchStart"
-						@touchend="onTouchEnd"
-		>
+						@touchend="onTouchEnd">
 				<Navbar
+								class="todo-layout-navbar"
 								v-if="shouldShowNavbar"
-								@toggle-sidebar="toggleSidebar"
-				/>
+								@toggle-sidebar="toggleSidebar"/>
 				
 				<div
 								class="sidebar-mask"
-								@click="toggleSidebar(false)"
-				/>
+								@click="toggleSidebar(false)"/>
 				
-				<!--TODO -->
-				sidebarItems==>{{sidebarItems}}
 				<Sidebar
 								:items="sidebarItems"
 								@toggle-sidebar="toggleSidebar">
@@ -30,9 +26,8 @@
 				
 				<Home v-if="$page.frontmatter.home"/>
 				
-				<Page
-								v-else
-								:sidebar-items="sidebarItems">
+				<Page v-else
+				      :sidebar-items="sidebarItems">
 						<template #top>
 								<slot name="page-top"/>
 						</template>

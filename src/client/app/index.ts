@@ -8,7 +8,7 @@ import Theme from '/@theme/index'
 import { inBrowser, pathToFile } from './utils'
 import { useSiteDataByRoute } from './composables/siteDataByRoute'
 import { siteDataRef } from './composables/siteData'
-import OutboundLink from '../theme-default/layouts/OutboundLink.vue'
+import OutboundLink from '../theme-default/components/icons/OutboundLink.vue'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
@@ -49,6 +49,7 @@ export function createApp() {
       pagePath = pagePath.replace(/\.js$/, '.lean.js')
     }
 
+    console.info('inBrowser===>', inBrowser)
     if (inBrowser) {
       isInitialPageLoad = false
       // in browser: native dynamic import
@@ -56,6 +57,7 @@ export function createApp() {
         if (page.__pageData) {
           pageDataRef.value = readonly(JSON.parse(page.__pageData))
         }
+        console.info('page====>', page)
         return page.default
       })
     } else {
@@ -89,6 +91,21 @@ export function createApp() {
   }
 
   Object.defineProperties(app.config.globalProperties, {
+    $localeConfig: {
+      get() {
+        const { locales = {} } = this.$site
+        let targetLang
+        let defaultLang
+        for (const path in locales) {
+          if (path === '/') {
+            defaultLang = locales[path]
+          } else if (this.$page.path.indexOf(path) === 0) {
+            targetLang = locales[path]
+          }
+        }
+        return targetLang || defaultLang || {}
+      }
+    },
     $site: {
       get() {
         return siteDataRef.value
@@ -109,6 +126,7 @@ export function createApp() {
         return siteDataByRouteRef.value.themeConfig
       }
     },
+
     $title: {
       get(): any {
         const page = this.$page || {}
@@ -160,19 +178,9 @@ export function createApp() {
         return useRoute()
       }
     },
-    $localeConfig: {
+    $siteTitle: {
       get() {
-        const { locales = {} } = this.$site
-        let targetLang
-        let defaultLang
-        for (const path in locales) {
-          if (path === '/') {
-            defaultLang = locales[path]
-          } else if (this.$page.path.indexOf(path) === 0) {
-            targetLang = locales[path]
-          }
-        }
-        return targetLang || defaultLang || {}
+        return this.$localeConfig.title || this.$site.title || ''
       }
     },
     // TODO
