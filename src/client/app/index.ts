@@ -9,6 +9,7 @@ import { inBrowser, pathToFile } from './utils'
 import { useSiteDataByRoute } from './composables/siteDataByRoute'
 import { siteDataRef } from './composables/siteData'
 import OutboundLink from '../theme-default/components/icons/OutboundLink.vue'
+import { routerNew } from './router-new'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
@@ -203,7 +204,7 @@ export function createApp() {
   if (Theme.enhanceApp) {
     Theme.enhanceApp({
       app,
-      router,
+      router: routerNew,
       siteData: siteDataByRouteRef
     })
   }
@@ -220,10 +221,12 @@ export function createApp() {
 
 if (inBrowser) {
   const { app, router } = createApp()
+  console.info('router===>', router)
+  console.info('routerNew===>', routerNew)
   // wait unitl page component is fetched before mounting
-  router.go().then(() => {
-    app.mount('#app')
-  })
+  // todo: what is the router to do work ?
+  // routerNew.isReady().then(() => app.mount('#app')) // todo: no work
+  router.go().then(() => app.mount('#app')) // todo: work it
 }
 
 function getMetaDescription(meta: any[]): string {

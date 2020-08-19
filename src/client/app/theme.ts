@@ -1,5 +1,7 @@
-import { App, Ref, ComponentOptions } from 'vue'
-import { Router } from './router'
+import { App, ComponentOptions, Ref } from 'vue'
+// import { Router } from './router'
+import { Router } from 'vue-router'
+
 import { SiteData } from '../../../types/shared'
 
 export interface EnhanceAppContext {

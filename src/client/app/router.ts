@@ -26,7 +26,10 @@ export function createRouter(
   loadComponent: (route: Route) => Component | Promise<Component>,
   fallbackComponent?: Component
 ): Router {
+  console.info('模拟loadComponent-==>', loadComponent)
+  console.info('getDefaultRoute-==>', getDefaultRoute())
   const route = reactive(getDefaultRoute())
+  // console.info('模拟route==->', route)// todo 转换 响应式router
   const inBrowser = typeof window !== 'undefined'
 
   function go(href?: string) {
